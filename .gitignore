@@ -1,0 +1,13 @@
+.env
+credentials.json
+token.json
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+session_store.json
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.coverage
