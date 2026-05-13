@@ -19,6 +19,16 @@ Examples:
 
 ---
 
+## How to Join
+
+FamilyText Calendar is a private system for household members only. To request access, contact Anthony Anderson directly. Once your number has been added to the system, you will receive a welcome message confirming your enrollment.
+
+After receiving your welcome message, text **START** to **(612) 431-8751** to confirm your opt-in and begin receiving messages.
+
+By texting START, you agree to receive automated SMS messages from FamilyText Calendar including calendar confirmations, query responses, and daily schedule summaries. Message frequency varies based on your activity. Message and data rates may apply. Text **STOP** at any time to unsubscribe. Text **HELP** for assistance.
+
+---
+
 ## Legal
 
 - [Privacy Policy](privacy-policy)
