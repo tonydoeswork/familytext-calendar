@@ -1,13 +1,14 @@
 # Terms of Service
 
 **FamilyText Calendar**
+Operated by: Anthony Anderson
 Last updated: April 2026
 
 ## Overview
-FamilyText Calendar is a private, household-only SMS calendar management system. Use of this system is by invitation only.
+FamilyText Calendar is a private household SMS calendar management system operated by Anthony Anderson. Use of this system is by invitation only and is not available to the general public.
 
 ## Eligibility
-This system is available only to individuals who have been explicitly registered by the system owner. Unauthorized use is not permitted.
+This system is available only to individuals who have been explicitly registered by Anthony Anderson. Unauthorized use is not permitted.
 
 ## How It Works
 Registered users may send SMS messages to the system phone number to:
@@ -20,20 +21,23 @@ Users agree to use this system only for its intended purpose of managing the hou
 
 ## Message Frequency
 Users may receive:
-- Replies to messages they initiate
+- Automated replies to messages they initiate
 - A daily schedule summary (if opted in)
-- Occasional system notifications (e.g. confirmation prompts)
+- Occasional automated system notifications (e.g. confirmation prompts)
 
-Message frequency varies based on user activity.
+Message frequency varies based on user activity. Message and data rates may apply.
 
-## Opting Out
-To be removed from the system, contact the system owner directly. The system owner can remove any registered user at any time.
+## No Marketing
+User data is never sold, rented, or shared with third parties for marketing or advertising purposes. No marketing messages will be sent through this system.
+
+## Opt-Out
+Text STOP at any time to stop receiving messages. Text HELP for assistance.
 
 ## Disclaimer
-This system is provided as-is for personal household use. The system owner makes no guarantees of uptime, accuracy, or availability.
+This system is provided as-is for personal household use by Anthony Anderson. No guarantees of uptime, accuracy, or availability are made.
 
 ## Changes
-These terms may be updated at any time by the system owner.
+These terms may be updated at any time by Anthony Anderson.
 
 ## Contact
-For questions, contact the system owner directly.
+For questions, contact Anthony Anderson directly.

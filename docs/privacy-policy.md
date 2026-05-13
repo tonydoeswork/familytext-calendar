@@ -1,13 +1,14 @@
 # Privacy Policy
 
 **FamilyText Calendar**
+Operated by: Anthony Anderson
 Last updated: April 2026
 
 ## Overview
-FamilyText Calendar is a private, household-only SMS calendar management system. It is not a commercial product and is not available to the general public.
+FamilyText Calendar is a private, household-only SMS calendar management system operated by Anthony Anderson. It is not a commercial product and is not available to the general public.
 
 ## Who We Are
-This system is operated by a private individual for personal household use only. It is not affiliated with any company or organization.
+This system is operated by Anthony Anderson for personal household use only. It is not affiliated with any company or organization.
 
 ## Data Collection
 FamilyText Calendar processes the following data:
@@ -23,7 +24,9 @@ Data is used exclusively to:
 - Send a daily schedule summary to registered users
 
 ## Data Sharing
-No data is shared with any third parties except:
+User data is never sold, rented, or shared with third parties for marketing, advertising, or affiliate purposes.
+
+No data is shared with any third parties except the following services used solely to operate the system:
 - **Twilio**: SMS delivery service (messages pass through Twilio's infrastructure)
 - **Anthropic**: AI parsing service (message content is processed to extract event details)
 - **Google**: Calendar storage (events are stored in Google Calendar)
@@ -34,7 +37,10 @@ All third-party services are used solely to operate the system and are bound by 
 Message content is not stored persistently. Calendar events remain in Google Calendar until deleted by the user. Phone numbers remain in system configuration until manually removed by the system owner.
 
 ## Access
-This system is accessible only to individuals whose phone numbers have been explicitly registered by the system owner. There is no public access or sign-up.
+This system is accessible only to individuals whose phone numbers have been explicitly registered by Anthony Anderson. There is no public access or sign-up.
+
+## Opt-Out
+To be removed from the system, contact Anthony Anderson directly. You may also text STOP at any time to stop receiving messages.
 
 ## Contact
-For questions about this system, contact the system owner directly.
+For questions about this policy, contact Anthony Anderson directly.
