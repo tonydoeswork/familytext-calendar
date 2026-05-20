@@ -181,6 +181,18 @@ def format_event_confirmation(event: ParsedEvent) -> str:
     return msg
 
 
+def format_event_notification(adder_name: str, event: ParsedEvent) -> str:
+    date_display = _format_date_str(event.date)
+    time_display = _format_time_str(event.time)
+    return f'\U0001f4c5 {adder_name} added: {event.title}\n{date_display} · {time_display}'
+
+
+RECURRING_NOT_SUPPORTED = (
+    "Sorry, recurring events aren’t supported via text yet. "
+    "Add it directly in Google Calendar and everyone will see it in the morning summary."
+)
+
+
 def format_event_detail(event: dict) -> str:
     title = event.get('summary', 'Untitled')
     dt = _parse_google_start(event)

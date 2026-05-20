@@ -20,12 +20,14 @@ from app.services.parser import (
 from app.services.session import clear_session, get_session, set_session
 from app.services.sms import (
     HELP_TEXT,
+    RECURRING_NOT_SUPPORTED,
     format_clarification_prompt,
     format_confirmation_prompt,
     format_daily_summary,
     format_event_confirmation,
     format_event_detail,
     format_event_list,
+    format_event_notification,
     format_week_summary,
     send_sms,
 )
@@ -61,10 +63,20 @@ def _validate_twilio_signature(request: Request, form_dict: dict) -> bool:
 
 # ── event creation helper ────────────────────────────────────────────────────
 
+def _notify_other_users(sender_phone: str, parsed: ParsedEvent) -> None:
+    sender = config.get_registered_user(sender_phone)
+    sender_name = sender.name if sender else 'Someone'
+    msg = format_event_notification(sender_name, parsed)
+    for user in config.get_registered_users():
+        if user.phone != sender_phone:
+            send_sms(user.phone, msg)
+
+
 def _create_and_confirm(phone: str, parsed: ParsedEvent) -> None:
     try:
         cal.create_event(parsed)
         send_sms(phone, format_event_confirmation(parsed))
+        _notify_other_users(phone, parsed)
     except Exception as exc:
         logger.error(f'create_event failed phone={phone}: {exc}')
         send_sms(phone, _CALENDAR_ERROR)
@@ -250,6 +262,10 @@ async def twilio_webhook(request: Request) -> Response:
 
     if intent == Intent.HELP:
         send_sms(phone, HELP_TEXT)
+        return _twiml_200()
+
+    if intent == Intent.RECURRING:
+        send_sms(phone, RECURRING_NOT_SUPPORTED)
         return _twiml_200()
 
     if intent in (Intent.CONFIRM_YES, Intent.CONFIRM_NO):

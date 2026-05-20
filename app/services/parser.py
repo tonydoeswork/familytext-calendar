@@ -36,6 +36,7 @@ Valid intents and examples:
 - confirm_yes: affirm a pending action (yes, yeah, yep, sure, ok, correct, right, yup)
 - confirm_no: cancel a pending action (no, nope, cancel, nevermind, stop, nah)
 - help: request usage guide (HELP, ?, how do I use this)
+- recurring: request to add a repeating event ("soccer every Saturday", "weekly team lunch", "dentist every 6 months", "every other Tuesday at 3pm")
 - unknown: cannot determine intent
 
 Return exactly one intent value.\

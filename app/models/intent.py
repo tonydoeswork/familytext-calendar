@@ -11,4 +11,5 @@ class Intent(Enum):
     CONFIRM_YES  = 'confirm_yes'
     CONFIRM_NO   = 'confirm_no'
     HELP         = 'help'
+    RECURRING    = 'recurring'
     UNKNOWN      = 'unknown'
