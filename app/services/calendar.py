@@ -18,22 +18,43 @@ _TZ = ZoneInfo(TIMEZONE)
 SCOPES = ['https://www.googleapis.com/auth/calendar']
 _CALENDAR_ID: str = ''
 _service = None
+_creds: Credentials | None = None
+_last_token: str = ''
+
+
+def _persist_token_if_refreshed() -> None:
+    """If the credentials token has changed since last check, auto-update Railway."""
+    global _last_token
+    if _creds is None:
+        return
+    current_token = _creds.token or ''
+    if current_token and current_token != _last_token:
+        _last_token = current_token
+        new_json = _creds.to_json()
+        logger.warning(f'TOKEN_REFRESHED: {new_json}')
+        from app.utils.railway import update_variable
+        update_variable('GOOGLE_TOKEN_JSON', new_json)
 
 
 def init_calendar_service() -> None:
-    global _service, _CALENDAR_ID
+    global _service, _creds, _CALENDAR_ID, _last_token
 
     _CALENDAR_ID = os.environ['GOOGLE_CALENDAR_ID']
-    creds_data = json.loads(os.environ['GOOGLE_CREDENTIALS_JSON'])
     token_data = json.loads(os.environ['GOOGLE_TOKEN_JSON'])
 
-    creds = Credentials.from_authorized_user_info(token_data, SCOPES)
+    _creds = Credentials.from_authorized_user_info(token_data, SCOPES)
 
-    if creds.expired and creds.refresh_token:
-        creds.refresh(Request())
-        logger.warning(f'TOKEN_REFRESHED: {creds.to_json()}')
+    if _creds.expired and _creds.refresh_token:
+        _creds.refresh(Request())
+        _last_token = _creds.token or ''
+        new_json = _creds.to_json()
+        logger.warning(f'TOKEN_REFRESHED: {new_json}')
+        from app.utils.railway import update_variable
+        update_variable('GOOGLE_TOKEN_JSON', new_json)
+    else:
+        _last_token = _creds.token or ''
 
-    _service = build('calendar', 'v3', credentials=creds)
+    _service = build('calendar', 'v3', credentials=_creds)
     logger.info('Google Calendar service initialised')
 
 
@@ -72,6 +93,7 @@ def create_event(event: ParsedEvent) -> str:
         body['location'] = event.location
 
     result = _svc().events().insert(calendarId=_CALENDAR_ID, body=body).execute()
+    _persist_token_if_refreshed()
     event_id = result.get('id', '')
     logger.info(f'phone=system event_title={event.title} event_date={event.date} calendar_event_id={event_id}')
     return event_id
@@ -86,6 +108,7 @@ def get_events_for_date(target_date: date) -> list:
         singleEvents=True,
         orderBy='startTime',
     ).execute()
+    _persist_token_if_refreshed()
     return result.get('items', [])
 
 
@@ -99,6 +122,7 @@ def get_events_for_week(start: date) -> dict:
         singleEvents=True,
         orderBy='startTime',
     ).execute()
+    _persist_token_if_refreshed()
     items = result.get('items', [])
 
     week: dict = {}
@@ -133,6 +157,7 @@ def search_events(keyword: str, days: int = 90) -> list:
         orderBy='startTime',
         maxResults=10,
     ).execute()
+    _persist_token_if_refreshed()
     return result.get('items', [])
 
 
@@ -149,4 +174,5 @@ def get_event_detail(keyword: str) -> list:
         orderBy='startTime',
         maxResults=3,
     ).execute()
+    _persist_token_if_refreshed()
     return result.get('items', [])
