@@ -39,23 +39,33 @@ def _persist_token_if_refreshed() -> None:
 def init_calendar_service() -> None:
     global _service, _creds, _CALENDAR_ID, _last_token
 
-    _CALENDAR_ID = os.environ['GOOGLE_CALENDAR_ID']
-    token_data = json.loads(os.environ['GOOGLE_TOKEN_JSON'])
+    try:
+        _CALENDAR_ID = os.environ['GOOGLE_CALENDAR_ID']
+        token_data = json.loads(os.environ['GOOGLE_TOKEN_JSON'])
 
-    _creds = Credentials.from_authorized_user_info(token_data, SCOPES)
+        _creds = Credentials.from_authorized_user_info(token_data, SCOPES)
 
-    if _creds.expired and _creds.refresh_token:
-        _creds.refresh(Request())
-        _last_token = _creds.token or ''
-        new_json = _creds.to_json()
-        logger.warning(f'TOKEN_REFRESHED: {new_json}')
-        from app.utils.railway import update_variable
-        update_variable('GOOGLE_TOKEN_JSON', new_json)
-    else:
-        _last_token = _creds.token or ''
+        if _creds.expired and _creds.refresh_token:
+            _creds.refresh(Request())
+            _last_token = _creds.token or ''
+            new_json = _creds.to_json()
+            logger.warning(f'TOKEN_REFRESHED: {new_json}')
+            from app.utils.railway import update_variable
+            update_variable('GOOGLE_TOKEN_JSON', new_json)
+        else:
+            _last_token = _creds.token or ''
 
-    _service = build('calendar', 'v3', credentials=_creds)
-    logger.info('Google Calendar service initialised')
+        _service = build('calendar', 'v3', credentials=_creds)
+        logger.info('Google Calendar service initialised')
+
+    except Exception as exc:
+        logger.error(f'init_calendar_service failed: {exc}')
+        from app.utils.alerts import alert_operator
+        alert_operator(
+            '[FamilyText] CRITICAL: Google Calendar auth failed at startup. '
+            'App is dark. Check Railway logs & re-auth now.'
+        )
+        raise
 
 
 def _svc():

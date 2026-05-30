@@ -42,6 +42,28 @@ def send_sms(to: str, body: str) -> None:
         logger.info(f"to={to} message_sid={message.sid} body_length={len(body)}")
     except Exception as exc:
         logger.error(f"Failed to send SMS to={to}: {exc}")
+        _alert_on_send_failure(to)
+
+
+def _alert_on_send_failure(failed_to: str) -> None:
+    """Alert the operator when an SMS send fails, unless the failure was sending to the operator."""
+    try:
+        import json as _json
+        users = _json.loads(os.environ.get('REGISTERED_USERS', '[]'))
+        if not users:
+            return
+        operator_phone = users[0]['phone']
+        if failed_to == operator_phone:
+            # Sending to Tony himself failed — alerting via SMS won't work either
+            return
+        last4 = failed_to[-4:] if len(failed_to) >= 4 else failed_to
+        from app.utils.alerts import alert_operator
+        alert_operator(
+            f'[FamilyText] ERROR: Failed to send SMS to ...{last4}. '
+            'User got no reply. Check Twilio dashboard.'
+        )
+    except Exception as exc:
+        logger.error(f'_alert_on_send_failure itself failed: {exc}')
 
 
 # ── display helpers ───────────────────────────────────────────────────────────
